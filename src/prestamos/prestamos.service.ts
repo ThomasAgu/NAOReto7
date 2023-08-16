@@ -1,10 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Prestamo } from './prestamo.entity';
+import { BookState, Prestamo } from './prestamo.entity';
 import { Repository } from 'typeorm';
 import { LibrosService } from 'src/libros/libros.service';
 import { UsersService } from 'src/users/users.service';
 import { CreatePrestamoDto } from './dto/createprestamo.dto';
+import { Book } from 'src/libros/libro.entity';
 
 @Injectable()
 export class PrestamosService {
@@ -26,16 +27,20 @@ export class PrestamosService {
       return new HttpException('El libro no existe', HttpStatus.NOT_FOUND);
     }
 
-    if (book[0].amount == 0) {
-      return new HttpException(
-        'El libro no tiene ejemplares disponibles',
-        HttpStatus.FAILED_DEPENDENCY,
-      );
+    if (book instanceof Book) {
+      if (book.amount == 0) {
+        return new HttpException(
+          'El libro no tiene ejemplares disponibles',
+          HttpStatus.FAILED_DEPENDENCY,
+        );
+      } else {
+        const newBook = { ...book, amount: book.amount - 1 };
+        this.booksService.updateBook(newBook);
+        //Si pasa todo esto descontar en uno y crear el prestamo
+        const newPrestamo = this.prestamosRepository.create(prestamo);
+        return this.prestamosRepository.save(newPrestamo);
+      }
     }
-
-    //Si pasa todo esto descontar en uno y crear el prestamo
-    const newPrestamo = this.prestamosRepository.create(prestamo);
-    return this.prestamosRepository.save(newPrestamo);
   }
 
   //prestamo id
@@ -79,4 +84,23 @@ export class PrestamosService {
   }
 
   //falta la rut ad edevolverLibr
+  async returnLibro(id: number) {
+    const prestamo = await this.getPrestamo(id);
+
+    if (!prestamo) {
+      return new HttpException('Prestamo no encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    if (prestamo instanceof Prestamo) {
+      const book = await this.booksService.getBook(prestamo.book_id);
+      if (book instanceof Book) {
+        //Actualizar el ammount del libro
+        const newBook = { ...book, amount: book.amount + 1 };
+        this.booksService.updateBook(newBook);
+      }
+    }
+    const updatedPrestamo = { ...prestamo, state: BookState.IN_STOCK };
+    const result = Object.assign(prestamo, updatedPrestamo);
+    return this.prestamosRepository.save(result);
+  }
 }

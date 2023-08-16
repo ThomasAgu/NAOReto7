@@ -2,6 +2,10 @@ import { Book } from 'src/libros/libro.entity';
 import { User } from 'src/users/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
+export enum BookState {
+    OUT = 'out',
+    IN_STOCK = 'in_stock',
+  }
 @Entity({ name: 'prestamo' })
 export class Prestamo {
     @PrimaryGeneratedColumn()
@@ -9,6 +13,9 @@ export class Prestamo {
 
     @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
     createdAt: Date
+
+    @Column({ type: 'enum', enum: BookState, default: BookState.IN_STOCK})
+    state: BookState
 
     @Column()
     user_id: number

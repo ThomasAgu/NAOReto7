@@ -60,4 +60,19 @@ export class LibrosService {
 
     return result;
   }
+
+  async updateBook(book: Book) {
+    const bookFound = await this.bookRepository.findOne({
+      where: {
+        id: book.id,
+      },
+    });
+
+    if (!bookFound) {
+      return new HttpException('Libro no encontrado', HttpStatus.NOT_FOUND); //Esto no va a pasar porque no se lalma desde afuera
+    }
+
+    const updatedBook = Object.assign(bookFound, book);
+    return this.bookRepository.save(updatedBook);
+  }
 }

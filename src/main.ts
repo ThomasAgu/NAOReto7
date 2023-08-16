@@ -6,6 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Documentacion API REST libreria')
     .setDescription(
       'Van a encontrar rutas para el majeo de usuarios, libros, prestamos y autores',

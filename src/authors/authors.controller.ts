@@ -1,7 +1,17 @@
-import { Controller, Post, Body, Get, Delete, Patch, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/createAuthor.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('authors')
 export class AuthorsController {
@@ -17,6 +27,8 @@ export class AuthorsController {
     return this.authorsService.getAuthor(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Post()
   createAuthor(@Body() newAuthor: CreateAuthorDto) {
     return this.authorsService.createAuthor(newAuthor);

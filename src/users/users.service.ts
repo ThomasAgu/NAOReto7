@@ -43,6 +43,20 @@ export class UsersService {
     return userFound;
   }
 
+  async getUserByName(name: string) {
+    const userFound = await this.userRepository.findOne({
+      where: {
+        username: name,
+      },
+    });
+
+    if (!userFound) {
+      return new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    return userFound;
+  }
+
   async deleteUser(id: number) {
     const result = await this.userRepository.delete({ id });
 

@@ -2,13 +2,18 @@ import {
   Controller,
   Post,
   Body,
+  Patch,
   Get,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { PrestamosService } from './prestamos.service';
 import { CreatePrestamoDto } from './dto/createprestamo.dto';
-
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('prestamos')
 export class PrestamosController {
   constructor(private prestamosService: PrestamosService) {}
@@ -16,6 +21,11 @@ export class PrestamosController {
   @Post()
   createPrestamo(@Body() newPrestamo: CreatePrestamoDto) {
     return this.prestamosService.createPrestamo(newPrestamo);
+  }
+
+  @Patch(':id')
+  devolverPrestamo(@Param('id', ParseIntPipe) id: number) {
+    return this.prestamosService.returnLibro(id);
   }
 
   @Get(':id')
