@@ -6,11 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
+      host: 'containers-us-west-120.railway.app',
+      port: 8041,
       username: 'root',
-      password: '22081997',
-      database: 'bookstore',
+      password: 'vv3Ikz7WhbboRassOMZs',
+      database: 'railway',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       synchronize: true,
