@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { PrestamosService } from './prestamos.service';
 import { CreatePrestamoDto } from './dto/createprestamo.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)

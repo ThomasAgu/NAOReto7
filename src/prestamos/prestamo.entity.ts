@@ -1,5 +1,5 @@
-import { Book } from 'src/libros/libro.entity';
-import { User } from 'src/users/user.entity';
+import { Book } from '../libros/libro.entity';
+import { User } from '../users/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
 export enum BookState {

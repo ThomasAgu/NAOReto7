@@ -2,10 +2,10 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BookState, Prestamo } from './prestamo.entity';
 import { Repository } from 'typeorm';
-import { LibrosService } from 'src/libros/libros.service';
-import { UsersService } from 'src/users/users.service';
+import { LibrosService } from '../libros/libros.service';
+import { UsersService } from '../users/users.service';
 import { CreatePrestamoDto } from './dto/createprestamo.dto';
-import { Book } from 'src/libros/libro.entity';
+import { Book } from '../libros/libro.entity';
 
 @Injectable()
 export class PrestamosService {

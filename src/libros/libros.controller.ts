@@ -11,7 +11,7 @@ import {
 import { CreateBookDto } from './dto/createBook.dto';
 import { LibrosService } from './libros.service';
 import { Book } from './libro.entity';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('libros')
 export class LibrosController {

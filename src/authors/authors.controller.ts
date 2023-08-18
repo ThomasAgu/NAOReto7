@@ -10,7 +10,7 @@ import {
 import { AuthorsService } from './authors.service';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/createAuthor.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('authors')
