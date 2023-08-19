@@ -1,10 +1,11 @@
 import { Module, Global } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from 'src/config';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, DB_URL} from 'src/config';
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forRoot({
+      url: DB_URL,
       type: 'mysql',
       port: DB_PORT,
       host: DB_HOST,
