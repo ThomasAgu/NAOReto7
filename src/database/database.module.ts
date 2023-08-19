@@ -1,17 +1,16 @@
 import { Module, Global } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from 'src/config';
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      url: 'mysql://root:vv3Ikz7WhbboRassOMZs@containers-us-west-120.railway.app:8041/railway',
       type: 'mysql',
-      host: 'containers-us-west-120.railway.app',
-      port: 8041,
-      username: 'root',
-      password: 'vv3Ikz7WhbboRassOMZs',
-      database: 'railway',
+      port: DB_PORT,
+      host: DB_HOST,
+      username: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       synchronize: true,
